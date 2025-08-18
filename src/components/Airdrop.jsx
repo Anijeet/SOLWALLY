@@ -9,6 +9,8 @@ export default function Airdrop() {
     async function requestAirdrop() {
         let amount = document.getElementById("amount").value;
         await connection.requestAirdrop(wallet.publicKey, amount * LAMPORTS_PER_SOL);
+        const balance = await connection.getBalance(wallet.publicKey);
+        console.log("Balance: ", balance);
         alert("Airdropped " + amount + " SOL to " + wallet.publicKey.toBase58());
     }
 
