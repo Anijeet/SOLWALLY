@@ -20,7 +20,7 @@ import Airdrop from "./components/Airdrop";
 import Balance from "./components/Balance";
 import SendToken from "./components/SendTokem";
 import { SignMessage } from "./components/SignMessage";
-import { Sidebar } from "./components/Sidebar";
+import { Sidebar } from "./components/SideBar.jsx";
 import { Wallet } from "lucide-react";
 import { Toaster } from "sonner";
 import { CreateToken } from "./components/token/CreateToken";
