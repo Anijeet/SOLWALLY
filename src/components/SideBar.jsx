@@ -1,5 +1,5 @@
-import React from 'react';
 import { Home, Coins } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const menuItems = [
   {
@@ -14,7 +14,7 @@ const menuItems = [
   },
 ];
 
-export function Sidebar({ currentPath, onNavigate }) {
+export function Sidebar({ currentPath }) {
   return (
     <div className="w-64 h-full bg-slate-800 border-r border-gray-700">
       <div className="h-full">
@@ -27,9 +27,9 @@ export function Sidebar({ currentPath, onNavigate }) {
             const isActive = currentPath === item.href;
             
             return (
-              <button
+              <Link
                 key={item.name + '-' + index}
-                onClick={() => onNavigate(item.href)}
+                to={item.href}
                 className={`group relative flex items-center w-full px-6 py-3 font-medium transition-colors duration-200 hover:bg-slate-700 ${
                   isActive ? 'bg-slate-700 text-white' : 'text-gray-300 hover:text-white'
                 }`}
@@ -42,7 +42,7 @@ export function Sidebar({ currentPath, onNavigate }) {
                   {item.icon}
                 </span>
                 <span className="text-sm">{item.name}</span>
-              </button>
+              </Link>
             );
           })}
         </div>

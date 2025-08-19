@@ -12,6 +12,7 @@ import {
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 // Default styles that can be overridden by your app
 import "@solana/wallet-adapter-react-ui/styles.css";
@@ -25,7 +26,7 @@ import { Toaster } from "sonner";
 import { CreateToken } from "./components/token/CreateToken";
 
 // Dashboard Component
-const AppComponent = () => {
+const Dashboard = () => {
   const wallet = useWallet();
 
   return (
@@ -55,26 +56,9 @@ const AppComponent = () => {
   );
 };
 
-
-
 const AppContent = () => {
   const wallet = useWallet();
-  const [currentPath, setCurrentPath] = useState('/');
-
-  const handleNavigate = (path) => {
-    setCurrentPath(path);
-  };
-
-  const renderContent = () => {
-    switch (currentPath) {
-      case '/':
-        return <AppComponent />;
-      case '/token':
-        return <CreateToken />;
-      default:
-        return <AppComponent />;
-    }
-  };
+  const location = useLocation();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-400 via-slate-500 to-slate-600">
@@ -104,7 +88,7 @@ const AppContent = () => {
       
       <div className="flex h-screen">
         {/* Sidebar */}
-        <Sidebar currentPath={currentPath} onNavigate={handleNavigate} />
+        <Sidebar currentPath={location.pathname} />
         
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
@@ -126,9 +110,12 @@ const AppContent = () => {
             </div>
           </div>
 
-          {/* Content */}
+          {/* Content with Routes */}
           <div className="flex-1 overflow-auto">
-            {renderContent()}
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/token" element={<CreateToken />} />
+            </Routes>
           </div>
         </div>
       </div>
@@ -140,13 +127,15 @@ function App() {
   const endpoint = "https://solana-devnet.g.alchemy.com/v2/QELskRlvP3MOxsoXjyqvp";
   
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={[]} autoConnect>
-        <WalletModalProvider>
-          <AppContent />
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <Router>
+      <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={[]} autoConnect>
+          <WalletModalProvider>
+            <AppContent />
+          </WalletModalProvider>
+        </WalletProvider>
+      </ConnectionProvider>
+    </Router>
   );
 }
 
